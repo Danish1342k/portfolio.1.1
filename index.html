@@ -151,9 +151,9 @@
               <button class="navbar-link" data-nav-link>Portfolio</button>
             </li>
 
-            <li class="navbar-item">
+            <!-- <li class="navbar-item">
               <button class="navbar-link" data-nav-link>Blog</button>
-            </li>
+            </li> -->
 
             <li class="navbar-item">
               <button class="navbar-link" data-nav-link>Contact</button>
@@ -539,7 +539,7 @@
 
         <!-- BLOG -->
 
-        <article class="blog" data-page="blog">
+        <!-- <article class="blog" data-page="blog">
           <header>
             <h2 class="h2 article-title">Blog</h2>
           </header>
@@ -547,7 +547,11 @@
           <section class="blog-posts">
            <h2>No Blog Currently</h2>
           </section>
-        </article>
+        </article> -->
+
+        <!-- Toast Notification Container -->
+<div id="toast-container" class="toast-container"></div>
+
 
         <!-- CONTACT -->
 
@@ -572,8 +576,9 @@
           <section class="contact-form">
             <h3 class="h3 form-title">Contact Form</h3>
 
-            <form action="#" class="form" data-form>
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="form" data-form>
               <div class="input-wrapper">
+                <input type="hidden" name="access_key" value="09404a4a-258f-4796-aa46-90ddb831e100">
                 <input
                   type="text"
                   name="fullname"
@@ -601,7 +606,7 @@
                 data-form-input
               ></textarea>
 
-              <button class="form-btn" type="submit" disabled data-form-btn>
+              <button class="form-btn" type="submit">
                 <ion-icon name="paper-plane"></ion-icon>
                 <span>Send Message</span>
               </button>

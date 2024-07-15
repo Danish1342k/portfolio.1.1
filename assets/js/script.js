@@ -1,11 +1,8 @@
+
 'use strict';
-
-
 
 // element toggle function
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
-
-
 
 // sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");
@@ -13,8 +10,6 @@ const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
 // sidebar toggle functionality for mobile
 sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
-
-
 
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
@@ -44,7 +39,6 @@ for (let i = 0; i < testimonialsItem.length; i++) {
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
 
     testimonialsModalFunc();
-
   });
 
 }
@@ -52,8 +46,6 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 // add click event to modal close button
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
-
-
 
 // custom select variables
 const select = document.querySelector("[data-select]");
@@ -71,7 +63,6 @@ for (let i = 0; i < selectItems.length; i++) {
     selectValue.innerText = this.innerText;
     elementToggleFunc(select);
     filterFunc(selectedValue);
-
   });
 }
 
@@ -89,9 +80,7 @@ const filterFunc = function (selectedValue) {
     } else {
       filterItems[i].classList.remove("active");
     }
-
   }
-
 }
 
 // add event in all filter button items for large screen
@@ -108,33 +97,64 @@ for (let i = 0; i < filterBtn.length; i++) {
     lastClickedBtn.classList.remove("active");
     this.classList.add("active");
     lastClickedBtn = this;
-
   });
-
 }
-
-
 
 // contact form variables
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-// add event to all form input field
-for (let i = 0; i < formInputs.length; i++) {
-  formInputs[i].addEventListener("input", function () {
+  const form = event.target;
+  const formData = new FormData(form);
 
-    // check form validation
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
-
+  fetch(form.action, {
+      method: form.method,
+      body: formData
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+  })
+  .then(result => {
+      if (result.success) {
+          showToast("Message sent successfully!", true);
+          form.reset();
+      } else {
+          showToast("Failed to send message. Please try again.", false);
+      }
+  })
+  .catch(error => {
+      showToast("An error occurred. Please try again.", false);
+      console.error('Error:', error);
   });
+});
+
+function showToast(message, isSuccess) {
+  const toastContainer = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  toast.style.backgroundColor = isSuccess ? '#4BB543' : '#FF0000';
+  toastContainer.appendChild(toast);
+
+  // Show the toast
+  setTimeout(() => {
+      toast.classList.add('show');
+  }, 10);
+
+  // Hide the toast after 3 seconds
+  setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+  }, 3000);
+
+  // Remove the toast from DOM after hiding
+  setTimeout(() => {
+      toastContainer.removeChild(toast);
+  }, 3500);
 }
-
-
 
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
@@ -154,6 +174,5 @@ for (let i = 0; i < navigationLinks.length; i++) {
         navigationLinks[i].classList.remove("active");
       }
     }
-
   });
 }
